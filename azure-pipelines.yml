@@ -14,10 +14,13 @@ jobs:
    steps:
    - task: ArchiveFiles@2
      inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)'
+        rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+        archiveType: 'zip'
+        replaceExistingArchive: true
         includeRootFolder: false
    - task: PublishBuildArtifacts@1
      inputs:
+       PathtoPublish: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
        ArtifactName: 'CloudSigma'
        publishLocation: 'Container'
 
