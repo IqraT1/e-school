@@ -10,20 +10,23 @@ pool:
   vmImage: ubuntu-latest
 
 jobs:
-- deployment: VMDeploy
-  displayName: Deploy to VM
-  environment: 
+ - job:
+   steps:
+   - task: ArchiveFiles@2
+     inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)'
+        includeRootFolder: false
+   - task: PublishBuildArtifacts@1
+
+ - deployment: VMDeploy
+   displayName: Deploy to VM
+   environment: 
     name: CloudSigma
     resourceType: VirtualMachine
     tags: dev, web # only deploy to virtual machines with this tag
-  strategy:
+   strategy:
     runOnce:
       deploy:   
           steps:
           - script: echo "Hello world"
-#steps:
-#- task: ArchiveFiles@2
-#  inputs:
-#    rootFolderOrFile: '$(build.sourcesDirectory)'
-#    includeRootFolder: false
-#- task: PublishBuildArtifacts@1
+
