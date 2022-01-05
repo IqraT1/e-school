@@ -17,6 +17,9 @@ jobs:
         rootFolderOrFile: '$(build.sourcesDirectory)'
         includeRootFolder: false
    - task: PublishBuildArtifacts@1
+     inputs:
+       ArtifactName: 'CloudSigma'
+       publishLocation: 'Container'
 
  - deployment: VMDeploy
    displayName: Deploy to VM
@@ -31,7 +34,7 @@ jobs:
            - task: DownloadPipelineArtifact@2
              inputs:
               buildType: 'current'
-              artifactName: 'drop'
+              artifactName: 'CloudSigma'
               targetPath: '$(Pipeline.Workspace)'
            
 
