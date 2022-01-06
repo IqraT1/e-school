@@ -7,37 +7,46 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: 'Default'
 
-jobs:
- - job:
-   steps:
-   - task: ArchiveFiles@2
-     inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
-        archiveType: 'zip'
-        replaceExistingArchive: true
-        includeRootFolder: false
-   - task: PublishBuildArtifacts@1
-     inputs:
-       PathtoPublish: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
-       ArtifactName: 'CloudSigma'
-       publishLocation: 'Container'
+variables:
+  buildConfiguration: 'Debug'
+  buildPlatform: 'Any CPU'
+  continueOnError: true
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+       - job:
+         steps:
+            
+            - task: ArchiveFiles@2
+              inputs:
+                  rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+                  archiveType: 'zip'
+                  replaceExistingArchive: true
+                  includeRootFolder: false
+            - task: PublishBuildArtifacts@1
+              inputs:
+                PathtoPublish: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+                ArtifactName: 'CloudSigma'
+                publishLocation: 'Container'
 
- - deployment: VMDeploy
-   displayName: Deploy to VM
-   environment: 
-    name: CloudSigma
-    resourceType: VirtualMachine
-    tags: dev, web # only deploy to virtual machines with this tag
-   strategy:
-    runOnce:
-      deploy:   
-          steps:
-           - task: DownloadPipelineArtifact@2
-             inputs:
-              buildType: 'current'
-              artifactName: 'CloudSigma'
-              targetPath: '$(Pipeline.Workspace)'
-           
+       - job:
+       - deployment: VMDeploy
+         displayName: Deploy to VM
+         environment: 
+                name: CloudSigma
+                resourceType: VirtualMachine
+                tags: dev, web # only deploy to virtual machines with this tag
+         strategy:
+                runOnce:
+                  deploy:   
+                      steps:
+                      - task: DownloadPipelineArtifact@2
+                        inputs:
+                          buildType: 'current'
+                          artifactName: 'CloudSigma'
+                          targetPath: '$(Pipeline.Workspace)'
+                      
 
