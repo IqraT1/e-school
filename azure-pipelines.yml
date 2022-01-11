@@ -29,8 +29,8 @@ stages:
                   includeRootFolder: false
             - task: PublishBuildArtifacts@1
               inputs:
-                PathtoPublish: '$(build.sourcesDirectory)/CloudSigma'
-                ArtifactName: 'CloudSigma'
+                PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+                ArtifactName: 'ESchool'
                 publishLocation: 'Container'
 
        - job: 
@@ -45,12 +45,6 @@ stages:
                 runOnce:
                   deploy:   
                       steps:
-                      - task: DownloadPipelineArtifact@2
-                        inputs:
-                          buildType: 'current'
-                          artifactName: 'CloudSigma'
-                          targetPath: '$(Pipeline.Workspace)/CloudSigma'
-
                       - task: IISWebAppManagementOnMachineGroup@0
                         continueOnError: false 
                         displayName: IISWebAppManage
