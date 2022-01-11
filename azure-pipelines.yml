@@ -22,7 +22,7 @@ stages:
             - task: ArchiveFiles@2
               displayName: Archive Static Files
               inputs:
-                  rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+                  rootFolderOrFile: '$(build.sourcesDirectory)'
                   archiveType: 'zip'
                   replaceExistingArchive: true
                   includeRootFolder: false
@@ -33,6 +33,7 @@ stages:
                 publishLocation: 'Container'
 
        - job:
+         dependsOn: Build
        - deployment: VMDeploy
          displayName: Deploy to VM
          environment: 
