@@ -76,7 +76,7 @@ stages:
                         inputs:
                               WebSiteName: 'ESchool'
                               VirtualApplication: 'CloudSigma'
-                              Package: '$(System.DefaultWorkingDirectory)/IqraT1.e-school/*.zip'
+                              Package: '$(System.DefaultWorkingDirectory)/IqraT1.e-school/$(Build.BuildId).zip'
                               TakeAppOfflineFlag: true
                               XmlVariableSubstitution: true 
                       
