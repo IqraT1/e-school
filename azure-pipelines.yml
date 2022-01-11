@@ -61,7 +61,7 @@ stages:
                         inputs:
                               WebSiteName: 'ESchool'
                               VirtualApplication: 'CloudSigma'
-                              Package: '$(System.DefaultWorkingDirectory)/CloudSigma/$(Build.BuildId).zip'
+                              Package: '$(System.DefaultWorkingDirectory)/ESchool/$(Build.BuildId).zip'
                               TakeAppOfflineFlag: true
                               XmlVariableSubstitution: true 
                       
