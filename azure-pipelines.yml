@@ -22,14 +22,14 @@ stages:
             - task: ArchiveFiles@2
               displayName: Archive Static Files
               inputs:
-                  rootFolderOrFile: '$(build.sourcesDirectory)/s'
+                  rootFolderOrFile: '$(build.sourcesDirectory)'
                   archiveType: 'zip'
                   archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
                   replaceExistingArchive: true
                   includeRootFolder: false
             - task: PublishBuildArtifacts@1
               inputs:
-                PathtoPublish: '$(build.sourcesDirectory)/a'
+                PathtoPublish: '$(build.sourcesDirectory)/CloudSigma'
                 ArtifactName: 'CloudSigma'
                 publishLocation: 'Container'
 
