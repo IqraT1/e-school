@@ -49,7 +49,7 @@ stages:
                         inputs:
                           buildType: 'current'
                           artifactName: 'CloudSigma'
-                          targetPath: '$(Pipeline.Workspace)'
+                          targetPath: '$(Pipeline.Workspace)/CloudSigma'
 
                       - task: IISWebAppManagementOnMachineGroup@0
                         continueOnError: false 
