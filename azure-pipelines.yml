@@ -22,7 +22,7 @@ stages:
             - task: ArchiveFiles@2
               displayName: Archive Static Files
               inputs:
-                  rootFolderOrFile: '$(build.sourcesDirectory)/a'
+                  rootFolderOrFile: '$(build.sourcesDirectory)/s'
                   archiveType: 'zip'
                   archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
                   replaceExistingArchive: true
