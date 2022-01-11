@@ -14,10 +14,11 @@ variables:
   buildPlatform: 'Any CPU'
   continueOnError: true
 stages:
-  - stage: CI
-    displayName: CI/CD of eschool
+  - stage: Build
+    displayName: Build
     jobs:
-       - job: Build
+       - job:
+         displayName: Build and Publish
          steps:
             - task: CopyFiles@2
               inputs:
@@ -38,9 +39,12 @@ stages:
                 ArtifactName: 'IqraT1.e-school'
                 publishLocation: 'Container'
 
+  - stage: Deployment
+    displayName: Deployment
+    dependsOn: Build
+    jobs:
        - job: 
        - deployment: VMDeploy
-         dependsOn: Build
          displayName: Deploy to VM
          environment: 
                 name: CloudSigma
@@ -50,6 +54,12 @@ stages:
                 runOnce:
                   deploy:   
                       steps:
+                      - task: DownloadBuildArtifacts@1
+                        inputs:
+                              buildType: 'current'
+                              downloadType: 'single'
+                              artifactName: 'IqraT1.e-school'
+                              downloadPath: '$(System.DefaultWorkingDirectory)'
                       - task: IISWebAppManagementOnMachineGroup@0
                         continueOnError: false 
                         displayName: IISWebAppManage
@@ -66,7 +76,7 @@ stages:
                         inputs:
                               WebSiteName: 'ESchool'
                               VirtualApplication: 'CloudSigma'
-                              Package: '$(System.DefaultWorkingDirectory)/_IqraT1.e-school/IqraT1.e-school/*.zip'
+                              Package: '$(System.DefaultWorkingDirectory)/IqraT1.e-school/*.zip'
                               TakeAppOfflineFlag: true
                               XmlVariableSubstitution: true 
                       
