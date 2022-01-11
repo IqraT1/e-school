@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- master
 
 pool:
   name: 'Default'
@@ -19,7 +19,13 @@ stages:
     jobs:
        - job:
          steps:
-            
+            - task: CopyFiles@2
+              displayName: "Copy files"
+              continueOnError: false 
+              inputs:
+                        SourceFolder: '$(Agent.BuildDirectory)'
+                        Contents: '**'
+                        TargetFolder: '$(Build.ArtifactStagingDirectory)'
             - task: ArchiveFiles@2
               inputs:
                   rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
@@ -48,5 +54,25 @@ stages:
                           buildType: 'current'
                           artifactName: 'CloudSigma'
                           targetPath: '$(Pipeline.Workspace)'
+
+                      - task: IISWebAppManagementOnMachineGroup@0
+                        continueOnError: false 
+                        displayName: IISWebAppManage
+                        inputs:
+                           IISDeploymentType: 'IISWebsite'
+                           ActionIISWebsite: 'CreateOrUpdateWebsite'
+                           WebsiteName: 'Default Web Site'
+                           WebsitePhysicalPath: 'C:\contentful\Deployment'
+                           WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                          
+                      - task: IISWebAppDeploymentOnMachineGroup@0
+                        continueOnError: false 
+                        displayName: IISWebAppDeploy
+                        inputs:
+                              WebSiteName: 'Default Web Site'
+                              VirtualApplication: 'CloudSigma'
+                              Package: '$(System.DefaultWorkingDirectory)/CloudSigma/$(Build.BuildId).zip'
+                              TakeAppOfflineFlag: true
+                              XmlVariableSubstitution: true 
                       
 
