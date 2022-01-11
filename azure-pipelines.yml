@@ -32,8 +32,8 @@ stages:
                 ArtifactName: 'CloudSigma'
                 publishLocation: 'Container'
 
-       - job:
-         dependsOn: Buildsite
+       - job: CD
+         dependsOn: Build
        - deployment: VMDeploy
          displayName: Deploy to VM
          environment: 
