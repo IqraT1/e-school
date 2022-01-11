@@ -21,19 +21,22 @@ stages:
          steps:
             - task: ArchiveFiles@2
               displayName: Archive Static Files
+              continueOnError: false
               inputs:
                   rootFolderOrFile: '$(build.sourcesDirectory)'
                   archiveType: 'zip'
                   replaceExistingArchive: true
                   includeRootFolder: false
             - task: PublishBuildArtifacts@1
+              displayName: Publish Artifacts
+              continueOnError: false
               inputs:
-                PathtoPublish: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+                PathtoPublish: '$(Build.ArtifactsStagingDirectory)/$(Build.BuildId).zip'
                 ArtifactName: 'CloudSigma'
                 publishLocation: 'Container'
 
        - job:
-         dependsOn: Build
+         dependsOn: Publish Artifacts
        - deployment: VMDeploy
          displayName: Deploy to VM
          environment: 
