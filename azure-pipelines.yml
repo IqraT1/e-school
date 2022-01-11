@@ -19,10 +19,15 @@ stages:
     jobs:
        - job: Build
          steps:
+            - task: CopyFiles@2
+              inputs:
+                SourceFolder: '$(Build.SourcesDirectory)'
+                Contents: '**'
+                TargetFolder: '$(Build.ArtifactStagingDirectory)'
             - task: ArchiveFiles@2
               displayName: Archive Static Files
               inputs:
-                  rootFolderOrFile: '$(build.sourcesDirectory)'
+                  rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
                   archiveType: 'zip'
                   archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
                   replaceExistingArchive: true
@@ -30,7 +35,7 @@ stages:
             - task: PublishBuildArtifacts@1
               inputs:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-                ArtifactName: 'ESchool'
+                ArtifactName: 'eSchool'
                 publishLocation: 'Container'
 
        - job: 
