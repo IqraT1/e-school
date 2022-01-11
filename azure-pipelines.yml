@@ -28,7 +28,7 @@ stages:
                   includeRootFolder: false
             - task: PublishBuildArtifacts@1
               inputs:
-                PathtoPublish: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
+                PathtoPublish: '$(build.sourcesDirectory)'
                 ArtifactName: 'CloudSigma'
                 publishLocation: 'Container'
 
