@@ -38,7 +38,7 @@ stages:
                 ArtifactName: 'eSchool'
                 publishLocation: 'Container'
 
-       - job: 
+       #- job: 
        - deployment: VMDeploy
          dependsOn: Build
          displayName: Deploy to VM
