@@ -19,14 +19,8 @@ stages:
     jobs:
        - job:
          steps:
-            - task: CopyFiles@2
-              displayName: "Copy files"
-              continueOnError: false 
-              inputs:
-                        SourceFolder: '$(Agent.BuildDirectory)'
-                        Contents: '**'
-                        TargetFolder: '$(Build.ArtifactStagingDirectory)'
             - task: ArchiveFiles@2
+              displayName: Archive Static Files
               inputs:
                   rootFolderOrFile: '$(build.sourcesDirectory)/$(Build.BuildId).zip'
                   archiveType: 'zip'
