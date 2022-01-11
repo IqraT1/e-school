@@ -37,3 +37,38 @@ stages:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
                 ArtifactName: 'IqraT1.e-school'
                 publishLocation: 'Container'
+
+       - job: 
+       - deployment: VMDeploy
+         dependsOn: Build
+         displayName: Deploy to VM
+         environment: 
+                name: CloudSigma
+                resourceType: VirtualMachine
+                tags: dev, web # only deploy to virtual machines with this tag
+         strategy:
+                runOnce:
+                  deploy:   
+                      steps:
+                      - task: IISWebAppManagementOnMachineGroup@0
+                        continueOnError: false 
+                        displayName: IISWebAppManage
+                        inputs:
+                           IISDeploymentType: 'IISWebsite'
+                           ActionIISWebsite: 'CreateOrUpdateWebsite'
+                           WebsiteName: 'ESchool'
+                           WebsitePhysicalPath: 'C:\ESchool\Deployment'
+                           WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                          
+                      - task: IISWebAppDeploymentOnMachineGroup@0
+                        continueOnError: false 
+                        displayName: IISWebAppDeploy
+                        inputs:
+                              WebSiteName: 'ESchool'
+                              VirtualApplication: 'CloudSigma'
+                              Package: '$(System.DefaultWorkingDirectory)/_IqraT1.e-school/IqraT1.e-school/*.zip'
+                              TakeAppOfflineFlag: true
+                              XmlVariableSubstitution: true 
+                      
+
+   
