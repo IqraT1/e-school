@@ -24,6 +24,7 @@ stages:
               inputs:
                   rootFolderOrFile: '$(build.sourcesDirectory)'
                   archiveType: 'zip'
+                  archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
                   replaceExistingArchive: true
                   includeRootFolder: false
             - task: PublishBuildArtifacts@1
