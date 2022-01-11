@@ -51,7 +51,7 @@ stages:
                         inputs:
                            IISDeploymentType: 'IISWebsite'
                            ActionIISWebsite: 'CreateOrUpdateWebsite'
-                           WebsiteName: 'Default Web Site'
+                           WebsiteName: 'ESchool'
                            WebsitePhysicalPath: 'C:\ESchool\Deployment'
                            WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
                           
@@ -59,7 +59,7 @@ stages:
                         continueOnError: false 
                         displayName: IISWebAppDeploy
                         inputs:
-                              WebSiteName: 'Default Web Site'
+                              WebSiteName: 'ESchool'
                               VirtualApplication: 'CloudSigma'
                               Package: '$(System.DefaultWorkingDirectory)/CloudSigma/$(Build.BuildId).zip'
                               TakeAppOfflineFlag: true
